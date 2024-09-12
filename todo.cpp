@@ -3,8 +3,7 @@
 #include<fstream>  //For file handling
 using namespace std;
 
-int n = 0;  //Variable to store the number of tasks
-
+int n=0;  //Variable to count the number of tasks
 struct node{      //Create a node structure
     int i;               
     string task;
@@ -12,11 +11,16 @@ struct node{      //Create a node structure
     node* next;
 }; //Consists of task number, task and completion time
 
-struct node *head = NULL, *cur, *newnode;
+struct node *head = NULL, *cur, *newnode,*last;
 //Some usful variables for the code
 void create() {   //Function to create a new node
     newnode = new node();
-    newnode->i = ++n;
+     if(head == NULL){
+         newnode->i = ++n;
+     }
+     else{
+         newnode->i = last->i+1;
+     }
     cout << "Task no. " << newnode->i << endl;
     
     cin.ignore();  // Clear the input buffer before using getline
@@ -33,19 +37,21 @@ void addTask() {   //Function to add a new task
     create();
     if (head == NULL) { 
         head = newnode;
+        last = head;
     } else {
         cur = head;
         while (cur->next != NULL) {
             cur = cur->next;
         }
         cur->next = newnode;
+        last = newnode;
     }
 }
 
 void deleteTask_byNumber(int y) {    //Function to delete a task
     cur = head;
     node *temp = nullptr;
-    
+
     while (cur != NULL && cur->i != y) {
         temp = cur;
         cur = cur->next;
@@ -112,6 +118,7 @@ void takeDataFromFile() {    //Function to load data from file
             } else {
                 temp->next = newNode;  // Add to the end of the list
                 temp = newNode;
+                last = temp;
             }
         }
         inFile.close();
@@ -146,6 +153,9 @@ int main() {            //Main function
             case 1: addTask();
                     break;
             case 2: display();
+                    if(head==NULL){
+                         break;
+                       }
                     cout << "Enter the task number to delete: ";
                     cin >> q;
                     deleteTask_byNumber(q);
