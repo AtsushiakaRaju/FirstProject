@@ -3,7 +3,6 @@
 #include<fstream>  //For file handling
 using namespace std;
 
-int n=0;  //Variable to count the number of tasks
 struct node{      //Create a node structure
     int i;               
     string task;
@@ -16,7 +15,7 @@ struct node *head = NULL, *cur, *newnode,*last;
 void create() {   //Function to create a new node
     newnode = new node();
      if(head == NULL){
-         newnode->i = ++n;
+         newnode->i = 1;
      }
      else{
          newnode->i = last->i+1;
