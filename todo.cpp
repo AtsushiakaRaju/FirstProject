@@ -140,13 +140,28 @@ void display() {         //Function to display the list
     }
 }
 
+void modifyTaskbyNumber(int y) {    //Function to modify a task
+    cur = head;
+    while (cur != NULL && cur->i != y) {  //Find the task to be modified
+        cur = cur->next;
+    }
+    if (cur == NULL) {
+        cout << "Task not found" << endl;
+    } else {
+        cout << "Enter new task: ";    //Enter new task
+        cin.ignore();
+        getline(cin, cur->task);
+        cout << "Enter new completion time: ";
+        cin >> cur->CompletionTime;
+    }
+}
 int main() {            //Main function
     takeDataFromFile();
     int ch, q;
     
     while (1) {
         cout << "Enter your choice: " << endl;
-        cout << "1. Add task, 2. Delete task, 3. Display, 4. Exit" << endl;
+        cout << "1. Add task, 2. Delete task, 3. Display, 4. Modify, 5. Exit" << endl;
         cin >> ch;
         
         switch (ch) {
@@ -161,8 +176,12 @@ int main() {            //Main function
                     deleteTask_byNumber(q);
                     break;
             case 3: display();
-                    break;        
-            case 4: putDataIntoFile();
+                    break;
+            case 4: display();
+                    cout << "Enter the task number to modify: ";
+                    cin >> q;
+                    modifyTaskbyNumber(q);                         
+            case 5: putDataIntoFile();
                     exit(0);
         }
     }
